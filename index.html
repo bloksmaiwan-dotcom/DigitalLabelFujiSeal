@@ -152,6 +152,11 @@
   .editor label { display: block; font-size: 14px; color: var(--muted); margin: 10px 0 4px; }
   .editor select, .editor textarea { width: 100%; padding: 8px; border: 1.5px solid var(--line); border-radius: 4px; background: #fff; }
   .editor textarea { min-height: 84px; resize: vertical; }
+  .nut-grid { display: grid; grid-template-columns: 1fr 120px; gap: 6px 12px; align-items: center; }
+  .nut-grid label { margin: 0; color: var(--ink); font-size: 15px; }
+  .nut-grid input { width: 100%; padding: 7px 8px; border: 1.5px solid var(--line); border-radius: 4px; text-align: right; font: inherit; }
+  .btn-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
+  .btn.ghost { background: #fff; color: #000; border: 1.5px solid #000; }
   .toast { margin-top: 10px; color: var(--recycle); font-weight: 700; min-height: 1.5em; }
   .demo-note { font-size: 13px; color: var(--muted); margin-top: 10px; }
 
@@ -168,7 +173,7 @@
 <div id="consumer">
   <header class="band">
     <div class="band-inner">
-      <img class="logo" src="logoCCwit.png" alt="" onerror="this.remove()">
+      <img class="logo" src="logo.png" alt="" onerror="if(!this.dataset.t){this.dataset.t=1;this.src='logoCCwit.png'}else{this.remove()}">
       <h1 class="brand">Coca-Cola Zero Sugar</h1>
       <p class="variant">No sugar, no calories · 500 ml</p>
       <p class="legal">Best before: see cap. Store cool and dry.</p>
@@ -208,17 +213,10 @@
     <section id="t-nutrition" role="tabpanel" aria-labelledby="tab-nutrition" hidden>
       <h2>Nutrition</h2>
       <p class="small">Per 100 ml</p>
-      <table>
-        <tr><td>Energy</td><td>0.9 kJ / 0.2 kcal</td></tr>
-        <tr><td>Fat</td><td>0 g</td></tr>
-        <tr><td>Carbohydrates</td><td>0 g</td></tr>
-        <tr><td>of which sugars</td><td>0 g</td></tr>
-        <tr><td>Protein</td><td>0 g</td></tr>
-        <tr><td>Salt</td><td>0.02 g</td></tr>
-      </table>
+      <table id="nut-table"></table>
       <h3>Ingredients</h3>
-      <p>Carbonated water, colour (caramel E150d), acids (phosphoric acid, sodium citrate), sweeteners (aspartame, acesulfame K), natural flavourings including caffeine.</p>
-      <p class="small">Contains a source of phenylalanine. High caffeine content is not recommended for children and pregnant or breastfeeding women.</p>
+      <p id="ingredients">Sparkling water; colour: E150d; acid: E338; sweeteners: aspartame, acesulfame K, enzymatically produced steviol glycosides; natural flavourings; flavouring caffeine; acidity regulator: E331.</p>
+      <p class="small">Contains a source of phenylalanine. No added preservatives.</p>
     </section>
 
     <section id="t-origin" role="tabpanel" aria-labelledby="tab-origin" hidden>
@@ -260,7 +258,7 @@
     </div>
 
     <footer>
-      <p>Band and digital layer by Fuji Seal. This is a student prototype (TU/e, Group 16) made for academic purposes only; it is not affiliated with The Coca-Cola Company. Nutrition data is indicative, all other data is fictional.</p>
+      <p>Band and digital layer by Fuji Seal. This is a student prototype (TU/e, Group 16) made for academic purposes only; it is not affiliated with The Coca-Cola Company. Nutrition and ingredients follow the Dutch label; all other data is fictional.</p>
       <p><button id="to-brand">Open the brand owner view</button></p>
     </footer>
   </main>
@@ -270,7 +268,7 @@
 <div id="brand" hidden>
   <header class="band">
     <div class="band-inner">
-      <img class="logo" src="logo.png" alt="" onerror="this.remove()">
+      <img class="logo" src="logo.png" alt="" onerror="if(!this.dataset.t){this.dataset.t=1;this.src='logoCCwit.png'}else{this.remove()}">
       <h1 class="brand">Coca-Cola Zero Sugar</h1>
       <p class="variant">Brand owner dashboard · Fuji Seal digital layer</p>
     </div>
@@ -326,6 +324,20 @@
       <button class="btn" id="ed-save" style="margin-top:12px">Publish to all bottles</button>
       <p class="toast" id="ed-toast" aria-live="polite"></p>
       <p class="demo-note">Changes appear in the consumer view straight away. Demo data only.</p>
+    </div>
+
+    <h3>Edit nutrition and ingredients</h3>
+    <div class="editor">
+      <p class="small" style="margin:0 0 10px">Values per 100 ml. A recipe change goes live on every bottle without reprinting the band.</p>
+      <div class="nut-grid" id="nut-form"></div>
+      <label for="ed-ingr">Ingredients</label>
+      <textarea id="ed-ingr"></textarea>
+      <div class="btn-row">
+        <button class="btn" id="nut-save">Publish nutrition</button>
+        <button class="btn ghost" id="nut-reset">Reset to label values</button>
+      </div>
+      <p class="toast" id="nut-toast" aria-live="polite"></p>
+      <p class="demo-note">Demo: changes are saved in this browser only.</p>
     </div>
 
     <footer>
@@ -414,12 +426,68 @@
   edCountry.addEventListener("change", loadEditor);
   document.getElementById("ed-save").addEventListener("click", () => {
     rules[edCountry.value].text = edText.value.trim() || rules[edCountry.value].text;
+    save();
     document.getElementById("ed-toast").textContent = "Published to all bottles sold in " + edCountry.options[edCountry.selectedIndex].text + ".";
   });
 
+
+  // ---------- Nutrition (editable by brand owner) ----------
+  const LABEL = {
+    fields: [
+      ["energy", "Energy", "1.3 kJ / 0.3 kcal"],
+      ["fat", "Fat", "0 g"],
+      ["sat", "of which saturates", "0 g"],
+      ["carbs", "Carbohydrates", "0 g"],
+      ["sugars", "of which sugars", "0 g"],
+      ["protein", "Protein", "0 g"],
+      ["salt", "Salt", "0.01 g"]
+    ],
+    ingredients: "Sparkling water; colour: E150d; acid: E338; sweeteners: aspartame, acesulfame K, enzymatically produced steviol glycosides; natural flavourings; flavouring caffeine; acidity regulator: E331."
+  };
+  const KEY = "ccz-digital-layer-v1";
+  function load() {
+    try { const d = JSON.parse(localStorage.getItem(KEY)); if (d && d.values) return d; } catch (e) {}
+    return { values: Object.fromEntries(LABEL.fields.map(f => [f[0], f[2]])), ingredients: LABEL.ingredients, rules: null };
+  }
+  function save() {
+    try { localStorage.setItem(KEY, JSON.stringify({ values: state.values, ingredients: state.ingredients, rules })); } catch (e) {}
+  }
+  const state = load();
+  if (state.rules) Object.keys(state.rules).forEach(k => { if (rules[k]) rules[k].text = state.rules[k].text; });
+
+  function esc(t) { return String(t).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
+
+  function renderNutrition() {
+    document.getElementById("nut-table").innerHTML = LABEL.fields
+      .map(([k, name]) => `<tr><td>${name}</td><td>${esc(state.values[k])}</td></tr>`).join("");
+    document.getElementById("ingredients").textContent = state.ingredients;
+  }
+  function fillNutForm() {
+    document.getElementById("nut-form").innerHTML = LABEL.fields
+      .map(([k, name]) => `<label for="n-${k}">${name}</label><input id="n-${k}" value="${esc(state.values[k])}">`).join("");
+    document.getElementById("ed-ingr").value = state.ingredients;
+  }
+  document.getElementById("nut-save").addEventListener("click", () => {
+    LABEL.fields.forEach(([k]) => {
+      const v = document.getElementById("n-" + k).value.trim();
+      if (v) state.values[k] = v;
+    });
+    const ing = document.getElementById("ed-ingr").value.trim();
+    if (ing) state.ingredients = ing;
+    save(); renderNutrition(); fillNutForm();
+    document.getElementById("nut-toast").textContent = "Published. Consumers now see the new values.";
+  });
+  document.getElementById("nut-reset").addEventListener("click", () => {
+    LABEL.fields.forEach(([k, , v]) => state.values[k] = v);
+    state.ingredients = LABEL.ingredients;
+    save(); renderNutrition(); fillNutForm();
+    document.getElementById("nut-toast").textContent = "Reset to the values on the Dutch label.";
+  });
+
+  renderNutrition();
+  fillNutForm();
   renderRule();
   loadEditor();
 </script>
 </body>
 </html>
-
