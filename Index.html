@@ -1,1 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Coca-Cola Zero Sugar – product info</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --glass: #EEF5F4;      /* page: clear PET bottle */
+    --ink: #12343B;        /* text */
+    --band: #000000;       /* the micro band colour: Zero Sugar black */
+    --band-ink: #FFFFFF;
+    --red: #E41E2B;        /* Coca-Cola red accent */
+    --recycle: #2E7D57;    /* recyclable / compliant */
+    --line: #C9DCDA;
+    --card: #FFFFFF;
+    --muted: #4E6A6F;
+    --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+    --body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+  body {
+    margin: 0; background: var(--glass); color: var(--ink);
+    font: 17px/1.55 var(--body);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  main { max-width: 560px; margin: 0 auto; padding: 0 20px 48px; }
+  button, select, textarea { font: inherit; color: inherit; }
+  :focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+
+  /* The band: the page opens like the bottle, with one coloured band */
+  .band {
+    background: var(--band); color: var(--band-ink);
+    border-bottom: 8px solid var(--red);
+    padding: calc(env(safe-area-inset-top, 0px) + 28px) 20px 22px;
+  }
+  .band-inner { max-width: 560px; margin: 0 auto; }
+  .brand {
+    font: 800 clamp(38px, 11vw, 56px)/0.95 var(--display);
+    letter-spacing: -0.03em; margin: 0;
+  }
+  .logo { display: block; max-width: min(260px, 70%); height: auto; margin: 0 0 6px; }
+  .logo + .brand { font-size: 22px; }
+  .variant { font: 500 19px/1.3 var(--display); margin: 8px 0 0; }
+  .legal { font-size: 14px; margin: 14px 0 0; opacity: .85; }
+
+  .country {
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+    margin: 22px 0 6px; font-size: 15px; color: var(--muted);
+  }
+  .chip {
+    border: 1.5px solid var(--line); background: var(--card);
+    border-radius: 999px; padding: 6px 14px; cursor: pointer;
+  }
+  .chip[aria-pressed="true"] { background: #000; color: #fff; border-color: #000; }
+
+  .tabs {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px;
+    margin: 18px 0 0; border-bottom: 2px solid var(--line);
+  }
+  .tab {
+    background: none; border: 0; padding: 12px 4px 10px; cursor: pointer;
+    font: 700 15px/1.2 var(--display); color: var(--muted);
+    border-bottom: 3px solid transparent; margin-bottom: -2px;
+  }
+  .tab[aria-selected="true"] { color: var(--ink); border-color: var(--red); }
+
+  section { padding-top: 22px; }
+  h2 { font: 700 26px/1.15 var(--display); margin: 0 0 12px; letter-spacing: -0.01em; }
+  h3 { font: 700 18px/1.25 var(--display); margin: 22px 0 8px; }
+  p { margin: 0 0 12px; }
+  .small { font-size: 14px; color: var(--muted); }
+
+  table { width: 100%; border-collapse: collapse; font-size: 16px; }
+  td { padding: 9px 0; border-bottom: 1px solid var(--line); }
+  td:last-child { text-align: right; font-weight: 700; }
+
+  ol.steps { list-style: none; counter-reset: s; padding: 0; margin: 0; }
+  ol.steps li {
+    counter-increment: s; position: relative;
+    padding: 0 0 18px 48px; min-height: 36px;
+  }
+  ol.steps li::before {
+    content: counter(s); position: absolute; left: 0; top: -2px;
+    width: 34px; height: 34px; border-radius: 50%;
+    background: var(--recycle); color: #fff;
+    display: grid; place-items: center; font: 700 16px var(--display);
+  }
+  .rule {
+    background: var(--card); border-left: 5px solid var(--recycle);
+    padding: 14px 16px; margin: 0 0 20px;
+  }
+  .rule strong { display: block; font-family: var(--display); font-size: 18px; }
+
+  .float-demo {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 6px 0 18px;
+  }
+  .float-demo div {
+    background: var(--card); padding: 12px; font-size: 14px; text-align: center;
+    border-top: 6px solid var(--recycle);
+  }
+  .float-demo div.bad { border-top-color: #B4483C; }
+
+  dl.passport { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 0 16px; }
+  dl.passport dt { color: var(--muted); font-size: 15px; padding: 9px 0; border-bottom: 1px solid var(--line); }
+  dl.passport dd { margin: 0; padding: 9px 0; font-weight: 700; text-align: right; border-bottom: 1px solid var(--line); }
+  .grade {
+    display: inline-block; background: var(--recycle); color: #fff;
+    font: 800 15px var(--display); padding: 1px 9px; border-radius: 4px;
+  }
+
+  .promo {
+    margin: 32px 0 0; padding: 18px; background: var(--red); color: #fff;
+  }
+  .promo p { margin: 4px 0 12px; }
+  .btn {
+    background: #000; color: #fff; border: 0; padding: 11px 18px;
+    border-radius: 6px; cursor: pointer; font-weight: 700;
+  }
+  .promo .code { font: 800 22px var(--display); letter-spacing: .04em; }
+
+  .feedback { margin: 32px 0 0; padding-top: 18px; border-top: 2px solid var(--line); }
+  .feedback .row { display: flex; gap: 10px; margin-top: 8px; }
+  .feedback button { background: var(--card); border: 1.5px solid var(--line); padding: 8px 16px; border-radius: 6px; cursor: pointer; }
+
+  footer { margin: 36px 0 0; font-size: 14px; color: var(--muted); }
+  footer button { background: none; border: 0; padding: 0; text-decoration: underline; cursor: pointer; color: var(--ink); }
+
+  /* Brand owner dashboard */
+  .dash-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 8px 0 8px; }
+  .kpi { background: var(--card); padding: 14px 12px; }
+  .kpi b { display: block; font: 800 26px/1.1 var(--display); }
+  .kpi span { font-size: 13px; color: var(--muted); }
+  .bars { display: grid; gap: 8px; }
+  .bar { display: grid; grid-template-columns: 110px 1fr 46px; align-items: center; gap: 10px; font-size: 15px; }
+  .bar i { display: block; height: 12px; background: var(--red); border-radius: 2px; }
+  .bar em { font-style: normal; text-align: right; font-weight: 700; }
+  ul.checks { list-style: none; padding: 0; margin: 0; }
+  ul.checks li { padding: 10px 0 10px 32px; border-bottom: 1px solid var(--line); position: relative; }
+  ul.checks li::before {
+    content: "✓"; position: absolute; left: 0; top: 9px; width: 22px; height: 22px;
+    background: var(--recycle); color: #fff; border-radius: 50%;
+    display: grid; place-items: center; font-size: 13px; font-weight: 700;
+  }
+  ul.checks li.open::before { content: "!"; background: #C98A12; }
+  .editor { background: var(--card); padding: 16px; }
+  .editor label { display: block; font-size: 14px; color: var(--muted); margin: 10px 0 4px; }
+  .editor select, .editor textarea { width: 100%; padding: 8px; border: 1.5px solid var(--line); border-radius: 4px; background: #fff; }
+  .editor textarea { min-height: 84px; resize: vertical; }
+  .toast { margin-top: 10px; color: var(--recycle); font-weight: 700; min-height: 1.5em; }
+  .demo-note { font-size: 13px; color: var(--muted); margin-top: 10px; }
+
+  [hidden] { display: none !important; }
+  @media (max-width: 380px) {
+    .kpis { grid-template-columns: 1fr 1fr; }
+    .bar { grid-template-columns: 90px 1fr 40px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ CONSUMER VIEW ============ -->
+<div id="consumer">
+  <header class="band">
+    <div class="band-inner">
+      <img class="logo" src="logo.png" alt="" onerror="this.remove()">
+      <h1 class="brand">Coca-Cola Zero Sugar</h1>
+      <p class="variant">No sugar, no calories · 500 ml</p>
+      <p class="legal">Best before: see cap. Store cool and dry.</p>
+    </div>
+  </header>
+
+  <main>
+    <div class="country" role="group" aria-label="Choose your country">
+      <span>Your country:</span>
+      <button class="chip" data-country="NL" aria-pressed="true">Netherlands</button>
+      <button class="chip" data-country="DE" aria-pressed="false">Germany</button>
+      <button class="chip" data-country="FR" aria-pressed="false">France</button>
+    </div>
+
+    <div class="tabs" role="tablist" aria-label="Product information">
+      <button class="tab" role="tab" aria-selected="true" aria-controls="t-recycle" id="tab-recycle">Recycle</button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="t-nutrition" id="tab-nutrition">Nutrition</button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="t-origin" id="tab-origin">Origin</button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="t-passport" id="tab-passport">Passport</button>
+    </div>
+
+    <section id="t-recycle" role="tabpanel" aria-labelledby="tab-recycle">
+      <h2>How to recycle this bottle</h2>
+      <div class="rule" id="rule">
+        <strong id="rule-title"></strong>
+        <span id="rule-text"></span>
+      </div>
+      <ol class="steps" id="steps"></ol>
+      <h3>Why you can leave the band on</h3>
+      <p>The band is made of a light plastic film. In the recycling plant it floats off in the water bath, while the bottle sinks and becomes a new bottle.</p>
+      <div class="float-demo" aria-hidden="true">
+        <div>Micro band<br><b>floats off</b></div>
+        <div class="bad">Typical PETG sleeve<br><b>sinks with bottle</b></div>
+      </div>
+    </section>
+
+    <section id="t-nutrition" role="tabpanel" aria-labelledby="tab-nutrition" hidden>
+      <h2>Nutrition</h2>
+      <p class="small">Per 100 ml</p>
+      <table>
+        <tr><td>Energy</td><td>0.9 kJ / 0.2 kcal</td></tr>
+        <tr><td>Fat</td><td>0 g</td></tr>
+        <tr><td>Carbohydrates</td><td>0 g</td></tr>
+        <tr><td>of which sugars</td><td>0 g</td></tr>
+        <tr><td>Protein</td><td>0 g</td></tr>
+        <tr><td>Salt</td><td>0.02 g</td></tr>
+      </table>
+      <h3>Ingredients</h3>
+      <p>Carbonated water, colour (caramel E150d), acids (phosphoric acid, sodium citrate), sweeteners (aspartame, acesulfame K), natural flavourings including caffeine.</p>
+      <p class="small">Contains a source of phenylalanine. High caffeine content is not recommended for children and pregnant or breastfeeding women.</p>
+    </section>
+
+    <section id="t-origin" role="tabpanel" aria-labelledby="tab-origin" hidden>
+      <h2>Where it comes from</h2>
+      <p>Made and bottled in the Netherlands for the Dutch market.</p>
+      <h3>The bottle</h3>
+      <p>The bottle is made from 100% recycled PET, apart from the cap and band. The brand's shape is pressed into the plastic, so the bottle needs much less label to be recognised.</p>
+    </section>
+
+    <section id="t-passport" role="tabpanel" aria-labelledby="tab-passport" hidden>
+      <h2>Product passport</h2>
+      <p class="small">The data the EU asks brands to share about their packaging.</p>
+      <dl class="passport">
+        <dt>Bottle material</dt><dd>PET, 100% recycled</dd>
+        <dt>Band material</dt><dd>Floatable polyolefin</dd>
+        <dt>Band coverage</dt><dd>25% of bottle</dd>
+        <dt>Adhesive</dt><dd>None</dd>
+        <dt>Cap</dt><dd>HDPE, attached</dd>
+        <dt>Packaging weight</dt><dd>19.8 g</dd>
+        <dt>Recyclability grade</dt><dd><span class="grade">A</span></dd>
+        <dt>Batch</dt><dd>CZ-2026-1042</dd>
+      </dl>
+    </section>
+
+    <div class="promo">
+      <strong>Thanks for scanning</strong>
+      <p>Get 10% off your next Coca-Cola Zero Sugar 6-pack.</p>
+      <button class="btn" id="promo-btn">Show my code</button>
+      <p class="code" id="promo-code" hidden>ZERO10</p>
+    </div>
+
+    <div class="feedback">
+      <strong>Was this information useful?</strong>
+      <div class="row">
+        <button data-fb="yes">Yes</button>
+        <button data-fb="no">No</button>
+      </div>
+      <p class="toast" id="fb-toast" aria-live="polite"></p>
+    </div>
+
+    <footer>
+      <p>Band and digital layer by Fuji Seal. This is a student prototype (TU/e, Group 16) made for academic purposes only; it is not affiliated with The Coca-Cola Company. Nutrition data is indicative, all other data is fictional.</p>
+      <p><button id="to-brand">Open the brand owner view</button></p>
+    </footer>
+  </main>
+</div>
+
+<!-- ============ BRAND OWNER VIEW ============ -->
+<div id="brand" hidden>
+  <header class="band">
+    <div class="band-inner">
+      <img class="logo" src="logo.png" alt="" onerror="this.remove()">
+      <h1 class="brand">Coca-Cola Zero Sugar</h1>
+      <p class="variant">Brand owner dashboard · Fuji Seal digital layer</p>
+    </div>
+  </header>
+
+  <main>
+    <div class="dash-head">
+      <h2 style="margin-top:24px">Last 30 days</h2>
+      <span class="small">Zero Sugar 500 ml</span>
+    </div>
+
+    <div class="kpis">
+      <div class="kpi"><b>312,480</b><span>QR scans</span></div>
+      <div class="kpi"><b>3.1%</b><span>of bottles sold</span></div>
+      <div class="kpi"><b>3</b><span>countries live</span></div>
+    </div>
+
+    <h3>Scans by country</h3>
+    <div class="bars">
+      <div class="bar"><span>Netherlands</span><i style="width:100%"></i><em>52%</em></div>
+      <div class="bar"><span>Germany</span><i style="width:65%"></i><em>34%</em></div>
+      <div class="bar"><span>France</span><i style="width:27%"></i><em>14%</em></div>
+    </div>
+
+    <h3>What consumers open</h3>
+    <div class="bars">
+      <div class="bar"><span>Promotion</span><i style="width:100%"></i><em>41%</em></div>
+      <div class="bar"><span>Nutrition</span><i style="width:66%"></i><em>27%</em></div>
+      <div class="bar"><span>Recycle</span><i style="width:44%"></i><em>18%</em></div>
+      <div class="bar"><span>Origin</span><i style="width:22%"></i><em>9%</em></div>
+      <div class="bar"><span>Passport</span><i style="width:12%"></i><em>5%</em></div>
+    </div>
+
+    <h3>Compliance status</h3>
+    <ul class="checks">
+      <li>Recyclability grade A (band under 70% coverage, floatable, no adhesive)</li>
+      <li>Packaging minimisation: 85% less label film than a full sleeve</li>
+      <li>Digital product passport published and linked to the QR code</li>
+      <li>Local disposal instructions live for NL, DE and FR</li>
+      <li class="open">Belgium: disposal instructions still to be added</li>
+    </ul>
+
+    <h3>Change country content without reprinting</h3>
+    <div class="editor">
+      <label for="ed-country">Country</label>
+      <select id="ed-country">
+        <option value="NL">Netherlands</option>
+        <option value="DE">Germany</option>
+        <option value="FR">France</option>
+      </select>
+      <label for="ed-text">Disposal instruction shown to consumers</label>
+      <textarea id="ed-text"></textarea>
+      <button class="btn" id="ed-save" style="margin-top:12px">Publish to all bottles</button>
+      <p class="toast" id="ed-toast" aria-live="polite"></p>
+      <p class="demo-note">Changes appear in the consumer view straight away. Demo data only.</p>
+    </div>
+
+    <footer>
+      <p><button id="to-consumer">Back to the consumer view</button></p>
+    </footer>
+  </main>
+</div>
+
+<script>
+  // Country-specific disposal rules (demo content)
+  const rules = {
+    NL: {
+      title: "Return it for your deposit",
+      text: "This bottle has a deposit (statiegeld). Return it to a supermarket return machine.",
+      steps: ["Drink the bottle empty.", "Keep the cap on and leave the band on.", "Return it to a deposit machine in the supermarket."]
+    },
+    DE: {
+      title: "Pfandflasche: bring it back",
+      text: "This bottle has a single-use deposit (Einwegpfand). Return it wherever drinks are sold.",
+      steps: ["Drink the bottle empty.", "Do not crush it, so the machine can read it.", "Return it to a Pfand machine in any shop."]
+    },
+    FR: {
+      title: "Put it in the yellow bin",
+      text: "Throw the empty bottle in the yellow recycling bin (bac jaune).",
+      steps: ["Drink the bottle empty.", "Keep the cap on and leave the band on.", "Put it loose in the yellow bin, not in a bag."]
+    }
+  };
+  let country = "NL";
+
+  function renderRule() {
+    const r = rules[country];
+    document.getElementById("rule-title").textContent = r.title;
+    document.getElementById("rule-text").textContent = r.text;
+    document.getElementById("steps").innerHTML = r.steps.map(s => `<li>${s}</li>`).join("");
+  }
+
+  // Country chips
+  document.querySelectorAll(".chip").forEach(btn => {
+    btn.addEventListener("click", () => {
+      country = btn.dataset.country;
+      document.querySelectorAll(".chip").forEach(b => b.setAttribute("aria-pressed", b === btn));
+      renderRule();
+    });
+  });
+
+  // Tabs
+  const tabs = document.querySelectorAll(".tab");
+  tabs.forEach(tab => {
+    tab.addEventListener("click", () => {
+      tabs.forEach(t => {
+        const on = t === tab;
+        t.setAttribute("aria-selected", on);
+        document.getElementById(t.getAttribute("aria-controls")).hidden = !on;
+      });
+    });
+  });
+
+  // Promotion
+  document.getElementById("promo-btn").addEventListener("click", e => {
+    document.getElementById("promo-code").hidden = false;
+    e.target.hidden = true;
+  });
+
+  // Feedback
+  document.querySelectorAll("[data-fb]").forEach(b => b.addEventListener("click", () => {
+    document.getElementById("fb-toast").textContent =
+      b.dataset.fb === "yes" ? "Thanks, glad it helped." : "Thanks. Tell us what was missing in the survey.";
+  }));
+
+  // Switch views (also via ?view=brand in the URL)
+  const consumerView = document.getElementById("consumer");
+  const brandView = document.getElementById("brand");
+  function show(view) {
+    consumerView.hidden = view === "brand";
+    brandView.hidden = view !== "brand";
+    window.scrollTo(0, 0);
+  }
+  document.getElementById("to-brand").addEventListener("click", () => show("brand"));
+  document.getElementById("to-consumer").addEventListener("click", () => { renderRule(); show("consumer"); });
+  if (new URLSearchParams(location.search).get("view") === "brand") show("brand");
+
+  // Brand owner editor
+  const edCountry = document.getElementById("ed-country");
+  const edText = document.getElementById("ed-text");
+  function loadEditor() { edText.value = rules[edCountry.value].text; document.getElementById("ed-toast").textContent = ""; }
+  edCountry.addEventListener("change", loadEditor);
+  document.getElementById("ed-save").addEventListener("click", () => {
+    rules[edCountry.value].text = edText.value.trim() || rules[edCountry.value].text;
+    document.getElementById("ed-toast").textContent = "Published to all bottles sold in " + edCountry.options[edCountry.selectedIndex].text + ".";
+  });
+
+  renderRule();
+  loadEditor();
+</script>
+</body>
+</html>
 
