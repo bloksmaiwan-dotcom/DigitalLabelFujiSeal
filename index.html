@@ -172,12 +172,23 @@
     </div>
 
     <div class="tabs" role="tablist" aria-label="Product information">
-      <button class="tab" role="tab" aria-selected="true" aria-controls="t-recycle" id="tab-recycle">Recycle</button>
-      <button class="tab" role="tab" aria-selected="false" aria-controls="t-nutrition" id="tab-nutrition">Nutrition</button>
+      <button class="tab" role="tab" aria-selected="true" aria-controls="t-nutrition" id="tab-nutrition">Nutrition</button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="t-recycle" id="tab-recycle">Recycle</button>
       <button class="tab" role="tab" aria-selected="false" aria-controls="t-origin" id="tab-origin">Origin</button>
     </div>
 
-    <section id="t-recycle" role="tabpanel" aria-labelledby="tab-recycle">
+    <section id="t-nutrition" role="tabpanel" aria-labelledby="tab-nutrition">
+      <h2>Nutrition</h2>
+      <p>Velde contains no energy, fat, sugar or protein. What it does contain are natural minerals from the source.</p>
+      <h3>Mineral composition</h3>
+      <p class="small">Typical analysis, in mg per litre</p>
+      <table id="nut-table"></table>
+      <p class="small" style="margin-top:12px" id="nut-note"></p>
+      <h3>Ingredients</h3>
+      <p id="ingredients"></p>
+    </section>
+
+    <section id="t-recycle" role="tabpanel" aria-labelledby="tab-recycle" hidden>
       <h2>Where does this bottle go?</h2>
       <div class="rule">
         <strong id="rule-title"></strong>
@@ -192,14 +203,6 @@
       </div>
     </section>
 
-    <section id="t-nutrition" role="tabpanel" aria-labelledby="tab-nutrition" hidden>
-      <h2>Nutrition</h2>
-      <p>Velde contains no energy, fat, sugar or protein. What it does contain are natural minerals from the source.</p>
-      <h3>Mineral composition</h3>
-      <p class="small">Typical analysis, in mg per litre</p>
-      <table id="nut-table"></table>
-      <p class="small" style="margin-top:12px" id="nut-note"></p>
-    </section>
 
     <section id="t-origin" role="tabpanel" aria-labelledby="tab-origin" hidden>
       <h2>Where it comes from</h2>
@@ -286,6 +289,21 @@
       <li class="open">Belgium: disposal instructions still to be added</li>
     </ul>
 
+    <h3>Edit nutrition and ingredients</h3>
+    <div class="editor">
+      <p class="small" style="margin:0 0 10px">Mineral values in mg per litre. A new analysis or recipe goes live on every bottle without reprinting the band.</p>
+      <div class="nut-grid" id="nut-form"></div>
+      <label for="ed-ingr">Ingredients</label>
+      <textarea id="ed-ingr"></textarea>
+      <div class="btn-row">
+        <button class="btn" id="nut-save">Publish nutrition</button>
+        <button class="btn ghost" id="nut-reset">Reset to label values</button>
+      </div>
+      <p class="toast" id="nut-toast" aria-live="polite"></p>
+      <p class="demo-note">Demo: changes are saved in this browser only.</p>
+    </div>
+
+
     <h3>Change country content without reprinting</h3>
     <div class="editor">
       <label for="ed-country">Country</label>
@@ -298,18 +316,6 @@
       <textarea id="ed-text"></textarea>
       <button class="btn" id="ed-save" style="margin-top:12px">Publish to all bottles</button>
       <p class="toast" id="ed-toast" aria-live="polite"></p>
-    </div>
-
-    <h3>Edit mineral composition</h3>
-    <div class="editor">
-      <p class="small" style="margin:0 0 10px">Values in mg per litre. A new analysis goes live on every bottle without reprinting the band.</p>
-      <div class="nut-grid" id="nut-form"></div>
-      <div class="btn-row">
-        <button class="btn" id="nut-save">Publish values</button>
-        <button class="btn ghost" id="nut-reset">Reset to label values</button>
-      </div>
-      <p class="toast" id="nut-toast" aria-live="polite"></p>
-      <p class="demo-note">Demo: changes are saved in this browser only.</p>
     </div>
 
     <footer>
@@ -350,20 +356,22 @@
     ["potassium", "Potassium", "2"]
   ];
   const LABEL_NOTE = "Low in sodium. Suitable for preparing baby food.";
+  const LABEL_INGR = "Natural mineral water.";
 
   // ---------- Saved demo state ----------
-  const KEY = "velde-digital-layer-v1";
+  const KEY = "velde-digital-layer-v2";
   function load() {
     try { const d = JSON.parse(localStorage.getItem(KEY)); if (d && d.values) return d; } catch (e) {}
-    return { values: Object.fromEntries(LABEL.map(f => [f[0], f[2]])), rules: null };
+    return { values: Object.fromEntries(LABEL.map(f => [f[0], f[2]])), ingredients: LABEL_INGR, rules: null };
   }
   function save() {
     try {
       const r = {}; Object.keys(rules).forEach(k => r[k] = { text: rules[k].text });
-      localStorage.setItem(KEY, JSON.stringify({ values: state.values, rules: r }));
+      localStorage.setItem(KEY, JSON.stringify({ values: state.values, ingredients: state.ingredients, rules: r }));
     } catch (e) {}
   }
   const state = load();
+  if (!state.ingredients) state.ingredients = LABEL_INGR;
   if (state.rules) Object.keys(state.rules).forEach(k => { if (rules[k]) rules[k].text = state.rules[k].text; });
 
   function esc(t) { return String(t).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
@@ -380,6 +388,7 @@
     document.getElementById("nut-table").innerHTML = LABEL
       .map(([k, name]) => `<tr><td>${name}</td><td>${esc(state.values[k])} mg/l</td></tr>`).join("");
     document.getElementById("nut-note").textContent = LABEL_NOTE;
+    document.getElementById("ingredients").textContent = state.ingredients;
   }
 
   document.querySelectorAll(".chip").forEach(btn => {
@@ -438,17 +447,21 @@
   function fillNutForm() {
     document.getElementById("nut-form").innerHTML = LABEL
       .map(([k, name]) => `<label for="n-${k}">${name} (mg/l)</label><input id="n-${k}" inputmode="decimal" value="${esc(state.values[k])}">`).join("");
+    document.getElementById("ed-ingr").value = state.ingredients;
   }
   document.getElementById("nut-save").addEventListener("click", () => {
     LABEL.forEach(([k]) => {
       const v = document.getElementById("n-" + k).value.trim();
       if (v) state.values[k] = v;
     });
+    const ing = document.getElementById("ed-ingr").value.trim();
+    if (ing) state.ingredients = ing;
     save(); renderNutrition(); fillNutForm();
-    document.getElementById("nut-toast").textContent = "Published. Consumers now see the new values.";
+    document.getElementById("nut-toast").textContent = "Published. Consumers now see the new nutrition and ingredients.";
   });
   document.getElementById("nut-reset").addEventListener("click", () => {
     LABEL.forEach(([k, , v]) => state.values[k] = v);
+    state.ingredients = LABEL_INGR;
     save(); renderNutrition(); fillNutForm();
     document.getElementById("nut-toast").textContent = "Reset to the original label values.";
   });
