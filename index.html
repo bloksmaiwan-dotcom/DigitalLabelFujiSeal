@@ -3,22 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Coca-Cola Zero Sugar – product info</title>
+<title>Velde natural mineral water – product info</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bitter:wght@600;800&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --glass: #EEF5F4;      /* page: clear PET bottle */
-    --ink: #12343B;        /* text */
-    --band: #000000;       /* the micro band colour: Zero Sugar black */
-    --band-ink: #FFFFFF;
-    --red: #E41E2B;        /* Coca-Cola red accent */
-    --recycle: #2E7D57;    /* recyclable / compliant */
-    --line: #C9DCDA;
+    --glass: #EEF5F2;      /* page: clear PET bottle */
+    --ink: #12302A;        /* text */
+    --band: #123F34;       /* Velde band: deep green */
+    --mint: #8ED1B5;       /* Velde accent lines */
+    --mint-soft: #CDEBDD;  /* scan & earn panel */
+    --accent: #1F7A5C;     /* recyclable / compliant */
+    --line: #C7DCD3;
     --card: #FFFFFF;
-    --muted: #4E6A6F;
-    --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+    --muted: #4C6860;
+    --display: "Bitter", Georgia, "Times New Roman", serif;
     --body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
   }
   * { box-sizing: border-box; }
@@ -29,24 +29,27 @@
     padding-bottom: env(safe-area-inset-bottom, 0px);
   }
   main { max-width: 560px; margin: 0 auto; padding: 0 20px 48px; }
-  button, select, textarea { font: inherit; color: inherit; }
+  button, select, textarea, input { font: inherit; color: inherit; }
   :focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
 
-  /* The band: the page opens like the bottle, with one coloured band */
+  /* The band: the page opens like the bottle */
   .band {
-    background: var(--band); color: var(--band-ink);
-    border-bottom: 8px solid var(--red);
-    padding: calc(env(safe-area-inset-top, 0px) + 28px) 20px 22px;
+    background: var(--band); color: #fff;
+    padding: calc(env(safe-area-inset-top, 0px) + 26px) 20px 20px;
+    border-top: 3px solid var(--mint);
+    border-bottom: 3px solid var(--mint);
+    box-shadow: inset 0 6px 0 var(--band), inset 0 -6px 0 var(--band);
   }
   .band-inner { max-width: 560px; margin: 0 auto; }
   .brand {
-    font: 800 clamp(38px, 11vw, 56px)/0.95 var(--display);
-    letter-spacing: -0.03em; margin: 0;
+    font: 800 clamp(52px, 15vw, 72px)/0.95 var(--display);
+    letter-spacing: -0.01em; margin: 0;
   }
-  .logo { display: block; max-width: min(260px, 70%); height: auto; margin: 0 0 6px; }
-  .logo + .brand { font-size: 22px; }
-  .variant { font: 500 19px/1.3 var(--display); margin: 8px 0 0; }
-  .legal { font-size: 14px; margin: 14px 0 0; opacity: .85; }
+  .variant {
+    font: 600 15px/1.3 var(--body); margin: 6px 0 0;
+    color: var(--mint); letter-spacing: .18em; text-transform: lowercase;
+  }
+  .legal { font-size: 13px; margin: 14px 0 0; opacity: .85; }
 
   .country {
     display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
@@ -56,22 +59,22 @@
     border: 1.5px solid var(--line); background: var(--card);
     border-radius: 999px; padding: 6px 14px; cursor: pointer;
   }
-  .chip[aria-pressed="true"] { background: #000; color: #fff; border-color: #000; }
+  .chip[aria-pressed="true"] { background: var(--band); color: #fff; border-color: var(--band); }
 
   .tabs {
-    display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px;
     margin: 18px 0 0; border-bottom: 2px solid var(--line);
   }
   .tab {
     background: none; border: 0; padding: 12px 4px 10px; cursor: pointer;
-    font: 700 15px/1.2 var(--display); color: var(--muted);
+    font: 600 16px/1.2 var(--display); color: var(--muted);
     border-bottom: 3px solid transparent; margin-bottom: -2px;
   }
-  .tab[aria-selected="true"] { color: var(--ink); border-color: var(--red); }
+  .tab[aria-selected="true"] { color: var(--ink); border-color: var(--band); }
 
   section { padding-top: 22px; }
-  h2 { font: 700 26px/1.15 var(--display); margin: 0 0 12px; letter-spacing: -0.01em; }
-  h3 { font: 700 18px/1.25 var(--display); margin: 22px 0 8px; }
+  h2 { font: 800 26px/1.15 var(--display); margin: 0 0 12px; }
+  h3 { font: 600 19px/1.25 var(--display); margin: 26px 0 8px; }
   p { margin: 0 0 12px; }
   .small { font-size: 14px; color: var(--muted); }
 
@@ -80,48 +83,30 @@
   td:last-child { text-align: right; font-weight: 700; }
 
   ol.steps { list-style: none; counter-reset: s; padding: 0; margin: 0; }
-  ol.steps li {
-    counter-increment: s; position: relative;
-    padding: 0 0 18px 48px; min-height: 36px;
-  }
+  ol.steps li { counter-increment: s; position: relative; padding: 0 0 18px 48px; min-height: 36px; }
   ol.steps li::before {
     content: counter(s); position: absolute; left: 0; top: -2px;
     width: 34px; height: 34px; border-radius: 50%;
-    background: var(--recycle); color: #fff;
-    display: grid; place-items: center; font: 700 16px var(--display);
+    background: var(--accent); color: #fff;
+    display: grid; place-items: center; font: 800 16px var(--display);
   }
-  .rule {
-    background: var(--card); border-left: 5px solid var(--recycle);
-    padding: 14px 16px; margin: 0 0 20px;
-  }
+  .rule { background: var(--card); border-left: 5px solid var(--accent); padding: 14px 16px; margin: 0 0 20px; }
   .rule strong { display: block; font-family: var(--display); font-size: 18px; }
 
-  .float-demo {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 6px 0 18px;
-  }
-  .float-demo div {
-    background: var(--card); padding: 12px; font-size: 14px; text-align: center;
-    border-top: 6px solid var(--recycle);
-  }
+  .float-demo { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 6px 0 18px; }
+  .float-demo div { background: var(--card); padding: 12px; font-size: 14px; text-align: center; border-top: 6px solid var(--accent); }
   .float-demo div.bad { border-top-color: #B4483C; }
 
   dl.passport { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 0 16px; }
   dl.passport dt { color: var(--muted); font-size: 15px; padding: 9px 0; border-bottom: 1px solid var(--line); }
   dl.passport dd { margin: 0; padding: 9px 0; font-weight: 700; text-align: right; border-bottom: 1px solid var(--line); }
-  .grade {
-    display: inline-block; background: var(--recycle); color: #fff;
-    font: 800 15px var(--display); padding: 1px 9px; border-radius: 4px;
-  }
+  .grade { display: inline-block; background: var(--accent); color: #fff; font: 800 15px var(--display); padding: 1px 9px; border-radius: 4px; }
 
-  .promo {
-    margin: 32px 0 0; padding: 18px; background: var(--red); color: #fff;
-  }
+  .promo { margin: 32px 0 0; padding: 18px; background: var(--mint-soft); color: var(--ink); border-radius: 10px; }
+  .promo strong { font: 800 20px var(--display); }
   .promo p { margin: 4px 0 12px; }
-  .btn {
-    background: #000; color: #fff; border: 0; padding: 11px 18px;
-    border-radius: 6px; cursor: pointer; font-weight: 700;
-  }
-  .promo .code { font: 800 22px var(--display); letter-spacing: .04em; }
+  .btn { background: var(--band); color: #fff; border: 0; padding: 11px 18px; border-radius: 6px; cursor: pointer; font-weight: 700; }
+  .promo .code { font: 800 24px var(--display); letter-spacing: .05em; }
 
   .feedback { margin: 32px 0 0; padding-top: 18px; border-top: 2px solid var(--line); }
   .feedback .row { display: flex; gap: 10px; margin-top: 8px; }
@@ -131,20 +116,19 @@
   footer button { background: none; border: 0; padding: 0; text-decoration: underline; cursor: pointer; color: var(--ink); }
 
   /* Brand owner dashboard */
-  .dash-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
-  .kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 8px 0 8px; }
+  .kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 8px 0; }
   .kpi { background: var(--card); padding: 14px 12px; }
-  .kpi b { display: block; font: 800 26px/1.1 var(--display); }
+  .kpi b { display: block; font: 800 24px/1.1 var(--display); }
   .kpi span { font-size: 13px; color: var(--muted); }
   .bars { display: grid; gap: 8px; }
-  .bar { display: grid; grid-template-columns: 110px 1fr 46px; align-items: center; gap: 10px; font-size: 15px; }
-  .bar i { display: block; height: 12px; background: var(--red); border-radius: 2px; }
+  .bar { display: grid; grid-template-columns: 120px 1fr 46px; align-items: center; gap: 10px; font-size: 15px; }
+  .bar i { display: block; height: 12px; background: var(--band); border-radius: 2px; }
   .bar em { font-style: normal; text-align: right; font-weight: 700; }
   ul.checks { list-style: none; padding: 0; margin: 0; }
   ul.checks li { padding: 10px 0 10px 32px; border-bottom: 1px solid var(--line); position: relative; }
   ul.checks li::before {
     content: "✓"; position: absolute; left: 0; top: 9px; width: 22px; height: 22px;
-    background: var(--recycle); color: #fff; border-radius: 50%;
+    background: var(--accent); color: #fff; border-radius: 50%;
     display: grid; place-items: center; font-size: 13px; font-weight: 700;
   }
   ul.checks li.open::before { content: "!"; background: #C98A12; }
@@ -152,18 +136,18 @@
   .editor label { display: block; font-size: 14px; color: var(--muted); margin: 10px 0 4px; }
   .editor select, .editor textarea { width: 100%; padding: 8px; border: 1.5px solid var(--line); border-radius: 4px; background: #fff; }
   .editor textarea { min-height: 84px; resize: vertical; }
-  .nut-grid { display: grid; grid-template-columns: 1fr 120px; gap: 6px 12px; align-items: center; }
+  .nut-grid { display: grid; grid-template-columns: 1fr 130px; gap: 6px 12px; align-items: center; }
   .nut-grid label { margin: 0; color: var(--ink); font-size: 15px; }
-  .nut-grid input { width: 100%; padding: 7px 8px; border: 1.5px solid var(--line); border-radius: 4px; text-align: right; font: inherit; }
+  .nut-grid input { width: 100%; padding: 7px 8px; border: 1.5px solid var(--line); border-radius: 4px; text-align: right; }
   .btn-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
-  .btn.ghost { background: #fff; color: #000; border: 1.5px solid #000; }
-  .toast { margin-top: 10px; color: var(--recycle); font-weight: 700; min-height: 1.5em; }
+  .btn.ghost { background: #fff; color: var(--band); border: 1.5px solid var(--band); }
+  .toast { margin-top: 10px; color: var(--accent); font-weight: 700; min-height: 1.5em; }
   .demo-note { font-size: 13px; color: var(--muted); margin-top: 10px; }
 
   [hidden] { display: none !important; }
   @media (max-width: 380px) {
     .kpis { grid-template-columns: 1fr 1fr; }
-    .bar { grid-template-columns: 90px 1fr 40px; }
+    .bar { grid-template-columns: 96px 1fr 40px; }
   }
 </style>
 </head>
@@ -173,10 +157,9 @@
 <div id="consumer">
   <header class="band">
     <div class="band-inner">
-      <img class="logo" src="logo.png" alt="" onerror="if(!this.dataset.t){this.dataset.t=1;this.src='logoCCwit.png'}else{this.remove()}">
-      <h1 class="brand">Coca-Cola Zero Sugar</h1>
-      <p class="variant">No sugar, no calories · 500 ml</p>
-      <p class="legal">Best before: see cap. Store cool and dry.</p>
+      <h1 class="brand">Velde</h1>
+      <p class="variant">natural mineral water</p>
+      <p class="legal">500 ml · Bron Veldhoven NL · Best before: see cap · Statiegeld / deposit €0,15</p>
     </div>
   </header>
 
@@ -192,60 +175,57 @@
       <button class="tab" role="tab" aria-selected="true" aria-controls="t-recycle" id="tab-recycle">Recycle</button>
       <button class="tab" role="tab" aria-selected="false" aria-controls="t-nutrition" id="tab-nutrition">Nutrition</button>
       <button class="tab" role="tab" aria-selected="false" aria-controls="t-origin" id="tab-origin">Origin</button>
-      <button class="tab" role="tab" aria-selected="false" aria-controls="t-passport" id="tab-passport">Passport</button>
     </div>
 
     <section id="t-recycle" role="tabpanel" aria-labelledby="tab-recycle">
-      <h2>How to recycle this bottle</h2>
-      <div class="rule" id="rule">
+      <h2>Where does this bottle go?</h2>
+      <div class="rule">
         <strong id="rule-title"></strong>
         <span id="rule-text"></span>
       </div>
       <ol class="steps" id="steps"></ol>
       <h3>Why you can leave the band on</h3>
-      <p>The band is made of a light plastic film. In the recycling plant it floats off in the water bath, while the bottle sinks and becomes a new bottle.</p>
+      <p>The band is made of a light plastic film. In the recycling plant it floats off in the water bath, while the bottle sinks and is made into a new bottle.</p>
       <div class="float-demo" aria-hidden="true">
-        <div>Micro band<br><b>floats off</b></div>
-        <div class="bad">Typical PETG sleeve<br><b>sinks with bottle</b></div>
+        <div>Velde band<br><b>floats off</b></div>
+        <div class="bad">Typical full sleeve<br><b>sinks with bottle</b></div>
       </div>
     </section>
 
     <section id="t-nutrition" role="tabpanel" aria-labelledby="tab-nutrition" hidden>
       <h2>Nutrition</h2>
-      <p class="small">Per 100 ml</p>
+      <p>Velde contains no energy, fat, sugar or protein. What it does contain are natural minerals from the source.</p>
+      <h3>Mineral composition</h3>
+      <p class="small">Typical analysis, in mg per litre</p>
       <table id="nut-table"></table>
-      <h3>Ingredients</h3>
-      <p id="ingredients">Sparkling water; colour: E150d; acid: E338; sweeteners: aspartame, acesulfame K, enzymatically produced steviol glycosides; natural flavourings; flavouring caffeine; acidity regulator: E331.</p>
-      <p class="small">Contains a source of phenylalanine. No added preservatives.</p>
+      <p class="small" style="margin-top:12px" id="nut-note"></p>
     </section>
 
     <section id="t-origin" role="tabpanel" aria-labelledby="tab-origin" hidden>
       <h2>Where it comes from</h2>
-      <p>Made and bottled in the Netherlands for the Dutch market.</p>
-      <h3>The bottle</h3>
-      <p>The bottle is made from 100% recycled PET, apart from the cap and band. The brand's shape is pressed into the plastic, so the bottle needs much less label to be recognised.</p>
-    </section>
+      <p>Velde comes from Bron Veldhoven, a protected spring in North Brabant. Rainwater filters slowly through layers of sand and clay before it reaches the source, which gives Velde its soft, mild taste.</p>
+      <p>The water is bottled at the source, without any treatment except filtering out sand.</p>
 
-    <section id="t-passport" role="tabpanel" aria-labelledby="tab-passport" hidden>
-      <h2>Product passport</h2>
-      <p class="small">The data the EU asks brands to share about their packaging.</p>
+      <h3>Product passport</h3>
+      <p class="small">The information the EU asks brands to share about their packaging.</p>
       <dl class="passport">
         <dt>Bottle material</dt><dd>PET, 100% recycled</dd>
         <dt>Band material</dt><dd>Floatable polyolefin</dd>
         <dt>Band coverage</dt><dd>25% of bottle</dd>
         <dt>Adhesive</dt><dd>None</dd>
-        <dt>Cap</dt><dd>HDPE, attached</dd>
-        <dt>Packaging weight</dt><dd>19.8 g</dd>
+        <dt>Cap</dt><dd>HDPE, attached to bottle</dd>
+        <dt>Packaging weight</dt><dd>18.6 g</dd>
         <dt>Recyclability grade</dt><dd><span class="grade">A</span></dd>
-        <dt>Batch</dt><dd>CZ-2026-1042</dd>
+        <dt>Bottled on</dt><dd>2 October 2026</dd>
+        <dt>Batch</dt><dd>VB-2026-1042</dd>
       </dl>
     </section>
 
     <div class="promo">
       <strong>Thanks for scanning</strong>
-      <p>Get 10% off your next Coca-Cola Zero Sugar 6-pack.</p>
-      <button class="btn" id="promo-btn">Show my code</button>
-      <p class="code" id="promo-code" hidden>ZERO10</p>
+      <p>Get €0,50 off your next Velde 6-pack.</p>
+      <button class="btn" id="promo-btn">Show my discount code</button>
+      <p class="code" id="promo-code" hidden>VELDE50</p>
     </div>
 
     <div class="feedback">
@@ -258,7 +238,7 @@
     </div>
 
     <footer>
-      <p>Band and digital layer by Fuji Seal. This is a student prototype (TU/e, Group 16) made for academic purposes only; it is not affiliated with The Coca-Cola Company. Nutrition and ingredients follow the Dutch label; all other data is fictional.</p>
+      <p>Band and digital layer by Fuji Seal. Velde is a made-up brand for a TU/e student project (Group 16); all product data is fictional.</p>
       <p><button id="to-brand">Open the brand owner view</button></p>
     </footer>
   </main>
@@ -268,43 +248,38 @@
 <div id="brand" hidden>
   <header class="band">
     <div class="band-inner">
-      <img class="logo" src="logo.png" alt="" onerror="if(!this.dataset.t){this.dataset.t=1;this.src='logoCCwit.png'}else{this.remove()}">
-      <h1 class="brand">Coca-Cola Zero Sugar</h1>
-      <p class="variant">Brand owner dashboard · Fuji Seal digital layer</p>
+      <h1 class="brand">Velde</h1>
+      <p class="variant">brand owner dashboard</p>
+      <p class="legal">Powered by the Fuji Seal digital layer</p>
     </div>
   </header>
 
   <main>
-    <div class="dash-head">
-      <h2 style="margin-top:24px">Last 30 days</h2>
-      <span class="small">Zero Sugar 500 ml</span>
-    </div>
-
+    <h2 style="margin-top:24px">Last 30 days</h2>
     <div class="kpis">
-      <div class="kpi"><b>312,480</b><span>QR scans</span></div>
-      <div class="kpi"><b>3.1%</b><span>of bottles sold</span></div>
+      <div class="kpi"><b>18,940</b><span>QR scans</span></div>
+      <div class="kpi"><b>3.4%</b><span>of bottles sold</span></div>
       <div class="kpi"><b>3</b><span>countries live</span></div>
     </div>
 
     <h3>Scans by country</h3>
     <div class="bars">
-      <div class="bar"><span>Netherlands</span><i style="width:100%"></i><em>52%</em></div>
-      <div class="bar"><span>Germany</span><i style="width:65%"></i><em>34%</em></div>
-      <div class="bar"><span>France</span><i style="width:27%"></i><em>14%</em></div>
+      <div class="bar"><span>Netherlands</span><i style="width:100%"></i><em>61%</em></div>
+      <div class="bar"><span>Germany</span><i style="width:44%"></i><em>27%</em></div>
+      <div class="bar"><span>France</span><i style="width:20%"></i><em>12%</em></div>
     </div>
 
     <h3>What consumers open</h3>
     <div class="bars">
-      <div class="bar"><span>Promotion</span><i style="width:100%"></i><em>41%</em></div>
-      <div class="bar"><span>Nutrition</span><i style="width:66%"></i><em>27%</em></div>
-      <div class="bar"><span>Recycle</span><i style="width:44%"></i><em>18%</em></div>
-      <div class="bar"><span>Origin</span><i style="width:22%"></i><em>9%</em></div>
-      <div class="bar"><span>Passport</span><i style="width:12%"></i><em>5%</em></div>
+      <div class="bar"><span>Discount</span><i style="width:100%"></i><em>44%</em></div>
+      <div class="bar"><span>Recycle</span><i style="width:55%"></i><em>24%</em></div>
+      <div class="bar"><span>Nutrition</span><i style="width:41%"></i><em>18%</em></div>
+      <div class="bar"><span>Origin & passport</span><i style="width:32%"></i><em>14%</em></div>
     </div>
 
     <h3>Compliance status</h3>
     <ul class="checks">
-      <li>Recyclability grade A (band under 70% coverage, floatable, no adhesive)</li>
+      <li>Recyclability grade A (small floatable band, no adhesive)</li>
       <li>Packaging minimisation: 85% less label film than a full sleeve</li>
       <li>Digital product passport published and linked to the QR code</li>
       <li>Local disposal instructions live for NL, DE and FR</li>
@@ -323,17 +298,14 @@
       <textarea id="ed-text"></textarea>
       <button class="btn" id="ed-save" style="margin-top:12px">Publish to all bottles</button>
       <p class="toast" id="ed-toast" aria-live="polite"></p>
-      <p class="demo-note">Changes appear in the consumer view straight away. Demo data only.</p>
     </div>
 
-    <h3>Edit nutrition and ingredients</h3>
+    <h3>Edit mineral composition</h3>
     <div class="editor">
-      <p class="small" style="margin:0 0 10px">Values per 100 ml. A recipe change goes live on every bottle without reprinting the band.</p>
+      <p class="small" style="margin:0 0 10px">Values in mg per litre. A new analysis goes live on every bottle without reprinting the band.</p>
       <div class="nut-grid" id="nut-form"></div>
-      <label for="ed-ingr">Ingredients</label>
-      <textarea id="ed-ingr"></textarea>
       <div class="btn-row">
-        <button class="btn" id="nut-save">Publish nutrition</button>
+        <button class="btn" id="nut-save">Publish values</button>
         <button class="btn ghost" id="nut-reset">Reset to label values</button>
       </div>
       <p class="toast" id="nut-toast" aria-live="polite"></p>
@@ -347,10 +319,10 @@
 </div>
 
 <script>
-  // Country-specific disposal rules (demo content)
+  // ---------- Country-specific disposal rules (demo content) ----------
   const rules = {
     NL: {
-      title: "Return it for your deposit",
+      title: "Return it for your €0,15 deposit",
       text: "This bottle has a deposit (statiegeld). Return it to a supermarket return machine.",
       steps: ["Drink the bottle empty.", "Keep the cap on and leave the band on.", "Return it to a deposit machine in the supermarket."]
     },
@@ -365,16 +337,51 @@
       steps: ["Drink the bottle empty.", "Keep the cap on and leave the band on.", "Put it loose in the yellow bin, not in a bag."]
     }
   };
-  let country = "NL";
 
+  // ---------- Mineral composition (editable by brand owner) ----------
+  const LABEL = [
+    ["dry", "Dry residue at 180 °C", "210"],
+    ["bicarbonate", "Bicarbonate", "145"],
+    ["calcium", "Calcium", "38"],
+    ["sulphate", "Sulphate", "22"],
+    ["chloride", "Chloride", "18"],
+    ["sodium", "Sodium", "12"],
+    ["magnesium", "Magnesium", "6"],
+    ["potassium", "Potassium", "2"]
+  ];
+  const LABEL_NOTE = "Low in sodium. Suitable for preparing baby food.";
+
+  // ---------- Saved demo state ----------
+  const KEY = "velde-digital-layer-v1";
+  function load() {
+    try { const d = JSON.parse(localStorage.getItem(KEY)); if (d && d.values) return d; } catch (e) {}
+    return { values: Object.fromEntries(LABEL.map(f => [f[0], f[2]])), rules: null };
+  }
+  function save() {
+    try {
+      const r = {}; Object.keys(rules).forEach(k => r[k] = { text: rules[k].text });
+      localStorage.setItem(KEY, JSON.stringify({ values: state.values, rules: r }));
+    } catch (e) {}
+  }
+  const state = load();
+  if (state.rules) Object.keys(state.rules).forEach(k => { if (rules[k]) rules[k].text = state.rules[k].text; });
+
+  function esc(t) { return String(t).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
+
+  // ---------- Consumer view ----------
+  let country = "NL";
   function renderRule() {
     const r = rules[country];
     document.getElementById("rule-title").textContent = r.title;
     document.getElementById("rule-text").textContent = r.text;
-    document.getElementById("steps").innerHTML = r.steps.map(s => `<li>${s}</li>`).join("");
+    document.getElementById("steps").innerHTML = r.steps.map(s => `<li>${esc(s)}</li>`).join("");
+  }
+  function renderNutrition() {
+    document.getElementById("nut-table").innerHTML = LABEL
+      .map(([k, name]) => `<tr><td>${name}</td><td>${esc(state.values[k])} mg/l</td></tr>`).join("");
+    document.getElementById("nut-note").textContent = LABEL_NOTE;
   }
 
-  // Country chips
   document.querySelectorAll(".chip").forEach(btn => {
     btn.addEventListener("click", () => {
       country = btn.dataset.country;
@@ -383,7 +390,6 @@
     });
   });
 
-  // Tabs
   const tabs = document.querySelectorAll(".tab");
   tabs.forEach(tab => {
     tab.addEventListener("click", () => {
@@ -395,19 +401,17 @@
     });
   });
 
-  // Promotion
   document.getElementById("promo-btn").addEventListener("click", e => {
     document.getElementById("promo-code").hidden = false;
     e.target.hidden = true;
   });
 
-  // Feedback
   document.querySelectorAll("[data-fb]").forEach(b => b.addEventListener("click", () => {
     document.getElementById("fb-toast").textContent =
       b.dataset.fb === "yes" ? "Thanks, glad it helped." : "Thanks. Tell us what was missing in the survey.";
   }));
 
-  // Switch views (also via ?view=brand in the URL)
+  // ---------- Switch views (also via ?view=brand) ----------
   const consumerView = document.getElementById("consumer");
   const brandView = document.getElementById("brand");
   function show(view) {
@@ -416,10 +420,10 @@
     window.scrollTo(0, 0);
   }
   document.getElementById("to-brand").addEventListener("click", () => show("brand"));
-  document.getElementById("to-consumer").addEventListener("click", () => { renderRule(); show("consumer"); });
+  document.getElementById("to-consumer").addEventListener("click", () => { renderRule(); renderNutrition(); show("consumer"); });
   if (new URLSearchParams(location.search).get("view") === "brand") show("brand");
 
-  // Brand owner editor
+  // ---------- Brand owner: country text ----------
   const edCountry = document.getElementById("ed-country");
   const edText = document.getElementById("ed-text");
   function loadEditor() { edText.value = rules[edCountry.value].text; document.getElementById("ed-toast").textContent = ""; }
@@ -430,64 +434,29 @@
     document.getElementById("ed-toast").textContent = "Published to all bottles sold in " + edCountry.options[edCountry.selectedIndex].text + ".";
   });
 
-
-  // ---------- Nutrition (editable by brand owner) ----------
-  const LABEL = {
-    fields: [
-      ["energy", "Energy", "1.3 kJ / 0.3 kcal"],
-      ["fat", "Fat", "0 g"],
-      ["sat", "of which saturates", "0 g"],
-      ["carbs", "Carbohydrates", "0 g"],
-      ["sugars", "of which sugars", "0 g"],
-      ["protein", "Protein", "0 g"],
-      ["salt", "Salt", "0.01 g"]
-    ],
-    ingredients: "Sparkling water; colour: E150d; acid: E338; sweeteners: aspartame, acesulfame K, enzymatically produced steviol glycosides; natural flavourings; flavouring caffeine; acidity regulator: E331."
-  };
-  const KEY = "ccz-digital-layer-v1";
-  function load() {
-    try { const d = JSON.parse(localStorage.getItem(KEY)); if (d && d.values) return d; } catch (e) {}
-    return { values: Object.fromEntries(LABEL.fields.map(f => [f[0], f[2]])), ingredients: LABEL.ingredients, rules: null };
-  }
-  function save() {
-    try { localStorage.setItem(KEY, JSON.stringify({ values: state.values, ingredients: state.ingredients, rules })); } catch (e) {}
-  }
-  const state = load();
-  if (state.rules) Object.keys(state.rules).forEach(k => { if (rules[k]) rules[k].text = state.rules[k].text; });
-
-  function esc(t) { return String(t).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
-
-  function renderNutrition() {
-    document.getElementById("nut-table").innerHTML = LABEL.fields
-      .map(([k, name]) => `<tr><td>${name}</td><td>${esc(state.values[k])}</td></tr>`).join("");
-    document.getElementById("ingredients").textContent = state.ingredients;
-  }
+  // ---------- Brand owner: mineral values ----------
   function fillNutForm() {
-    document.getElementById("nut-form").innerHTML = LABEL.fields
-      .map(([k, name]) => `<label for="n-${k}">${name}</label><input id="n-${k}" value="${esc(state.values[k])}">`).join("");
-    document.getElementById("ed-ingr").value = state.ingredients;
+    document.getElementById("nut-form").innerHTML = LABEL
+      .map(([k, name]) => `<label for="n-${k}">${name} (mg/l)</label><input id="n-${k}" inputmode="decimal" value="${esc(state.values[k])}">`).join("");
   }
   document.getElementById("nut-save").addEventListener("click", () => {
-    LABEL.fields.forEach(([k]) => {
+    LABEL.forEach(([k]) => {
       const v = document.getElementById("n-" + k).value.trim();
       if (v) state.values[k] = v;
     });
-    const ing = document.getElementById("ed-ingr").value.trim();
-    if (ing) state.ingredients = ing;
     save(); renderNutrition(); fillNutForm();
     document.getElementById("nut-toast").textContent = "Published. Consumers now see the new values.";
   });
   document.getElementById("nut-reset").addEventListener("click", () => {
-    LABEL.fields.forEach(([k, , v]) => state.values[k] = v);
-    state.ingredients = LABEL.ingredients;
+    LABEL.forEach(([k, , v]) => state.values[k] = v);
     save(); renderNutrition(); fillNutForm();
-    document.getElementById("nut-toast").textContent = "Reset to the values on the Dutch label.";
+    document.getElementById("nut-toast").textContent = "Reset to the original label values.";
   });
 
-  renderNutrition();
-  fillNutForm();
   renderRule();
+  renderNutrition();
   loadEditor();
+  fillNutForm();
 </script>
 </body>
 </html>
